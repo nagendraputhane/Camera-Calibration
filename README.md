@@ -1,5 +1,5 @@
-# Camera rolling shutter impact measurement
-# IMU to camera timestamp measurement
+# I] Camera rolling shutter impact measurement
+# II] IMU to camera timestamp measurement
 
 ## dataset
 * The dataset has CSV files that contain 
@@ -17,7 +17,7 @@ over a period of time along with their timestamps
 
 ## Feature Detectors
 * From the video file which contains a black rectangle in a white A4 target, we try to extract edges and corners. They are,
-### Canny algorithm
-### Harris corner detector
-### HoughLines - Hough transform algorithm for line detection
-### Detect contours and draw bounding rectangle
+### 1) Canny algorithm
+### 2) Harris corner detector
+### 3) HoughLines - Hough transform algorithm for line detection
+### 4) Detect contours and draw bounding rectangle
