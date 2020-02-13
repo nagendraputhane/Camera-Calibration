@@ -29,9 +29,6 @@ public:
         for(int i = 0; i < corners_global.size(); i++)
             circle( dst_norm_scaled, corners_global[i], 5,  Scalar(255), 1, LINE_AA, 0 );
 
-        //cv::Rect rect = cv::boundingRect(corners_global);
-        //cv::rectangle(dst_norm_scaled, rect, Scalar::all(255), 1);
-
         namedWindow( "Corners detected" );
         imshow( "Corners detected", dst_norm_scaled);
         cvtColor( dst_norm_scaled, dst_norm_scaled, cv::COLOR_GRAY2BGR );
