@@ -5,55 +5,39 @@
 
 using namespace cv;
 using namespace std;
+std::vector<cv::Point2f> corners_global;
+int frame_width, frame_height;
 
 class FeatureDetectors
 {
 public:
-    void harris(Mat src_gray)
+    void harris(Mat src_gray, VideoWriter video)
     {
-        int blockSize = 2;
-        int apertureSize = 3;
+        int blockSize = 5, apertureSize = 3, thresh = 130; //2, 75
         double k = 0.04;
-        int thresh = 75;
 
         std::vector<cv::Point2f> corners;
-
         Mat dst = Mat::zeros( src_gray.size(), CV_32FC1 );
 
         cornerHarris( src_gray, dst, blockSize, apertureSize, k );
-
-        cv::TermCriteria criteria = cv::TermCriteria(cv::TermCriteria::EPS || cv::TermCriteria::MAX_ITER, 100, 0.001 );
 
         /// Normalizing
         Mat dst_norm, dst_norm_scaled;
         normalize( dst, dst_norm, 0, 255, NORM_MINMAX, CV_32FC1, Mat() );
         convertScaleAbs( dst_norm, dst_norm_scaled );
 
-        /// Drawing a circle around corners
-        for( int i = 0; i < dst_norm.rows ; i++ )
-        {
-            for( int j = 0; j < dst_norm.cols; j++ )
-            {
-                if( (int) dst_norm.at<float>(i,j) > thresh )
-                {
+        for(int i = 0; i < corners_global.size(); i++)
+            circle( dst_norm_scaled, corners_global[i], 5,  Scalar(255), 1, LINE_AA, 0 );
 
-                    circle( dst_norm_scaled, cv::Point2f(j,i), 5,  Scalar(255), 2, 8, 0 );
-                    corners.emplace_back(cv::Point2f(j,i));
-                }
-            }
-        }
-
-        cv::cornerSubPix(src_gray, corners, cv::Size(5,5), cv::Size(-1,-1), criteria);
-
-        if(corners.size() <= 4)
-            cout << "Corners are : " << corners << endl;
-
-        corners.clear();
+        //cv::Rect rect = cv::boundingRect(corners_global);
+        //cv::rectangle(dst_norm_scaled, rect, Scalar::all(255), 1);
 
         namedWindow( "Corners detected" );
         imshow( "Corners detected", dst_norm_scaled);
+        cvtColor( dst_norm_scaled, dst_norm_scaled, cv::COLOR_GRAY2BGR );
+        video << dst_norm_scaled;
 
-        char c=(char)waitKey(25);
+        char c=(char)waitKey(1);
         if(c==27)
           exit(0);
     }
@@ -62,7 +46,7 @@ public:
     {
         std::vector<Vec2f> lines;
         cv::Mat src_gray_c;
-        cv::HoughLines(src_gray, lines, 1, CV_PI/180, 150);
+        cv::HoughLines(src_gray, lines, 1, CV_PI/180, 108); //150
 
         cvtColor(src_gray, src_gray_c, COLOR_GRAY2BGR);
         for( size_t i = 0; i < lines.size(); i++ )
@@ -77,8 +61,8 @@ public:
             pt2.y = cvRound(y0 - 1000*(a));
             line( src_gray_c, pt1, pt2, Scalar(0,0,255), 3, LINE_AA);
 
-            namedWindow( "Corners detected" );
-            imshow( "Corners detected", src_gray_c );
+            namedWindow( "Edges detected" );
+            imshow( "Edges detected", src_gray_c );
 
             char c=(char)waitKey(25);
             if(c==27)
@@ -129,9 +113,13 @@ int main()
     Mat src_gray;
     vector<cv::Vec4f> lines;
 
-    //cv::Ptr<CLAHE> clahe = cv::createCLAHE(0.5);
+    VideoCapture cap("/home/iq9/nagendra/delay/dataset/VID_20200212_140735.mp4");
 
-    VideoCapture cap("/home/iq9/nagendra/delay/dataset/VID_20200212_144723.mp4");
+    frame_width = cap.get(CV_CAP_PROP_FRAME_WIDTH);
+    frame_height = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
+
+    VideoWriter video("/home/iq9/nagendra/delay/dataset/output_corners.avi", CV_FOURCC('M','J','P','G'),
+                      30, Size(frame_width,frame_height));
     while(1)
     {
         Mat frame, frame_bi;
@@ -140,18 +128,14 @@ int main()
         if (frame.empty())
           break;
 
-
-        cv::Ptr<cv::LineSegmentDetector> lsd = createLineSegmentDetector();
-
         cvtColor( frame, src_gray, COLOR_BGR2GRAY );
 
-        //lsd->detect(src_gray, lines);
+        cv::threshold(src_gray, src_gray, 150, 255, ThresholdTypes::THRESH_BINARY);
 
-        //cout << "Number of lines : " << lines.size() << endl;
+        cv::goodFeaturesToTrack(src_gray, corners_global, 4, 0.01, 2, noArray(), 5,true, 0.04);
+        cout << "Corners are : " << corners_global << endl;
 
-        cv::Canny(src_gray, src_gray, 200, 255, 3, true);
-
-        fd.harris(src_gray);
+        fd.harris(src_gray, video);
         //fd.hough(src_gray);
         //fd.rect(src_gray);
     }
