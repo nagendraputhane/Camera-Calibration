@@ -17,7 +17,7 @@ Each Folder contains:
 3) Targets middle-points of edges.
 ```
 
-## Ploting
+## Plotting (plotting_programs)
 * plot_edge.py - Plot Middle-points of the edges of target.
 * plot_corners.py - Plot the corners of the edges of the target.
 * plot_imu.py - Plot Gyroscope, Accelerometer and Linear Accelerometer data of the image.
