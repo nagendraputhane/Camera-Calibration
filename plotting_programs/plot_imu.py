@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-datapd = pd.read_csv('/home/iq9/nagendra/delay/dataset/20-02-12 11:33:26/data_rvec.csv')
+datapd = pd.read_csv('/home/iq9/nagendra/delay/IMU_and_Image_data/20-02-17_17:50:23/data_lin_acc.csv')
 datanp = datapd.to_numpy()
 ax = datanp[:, 1]
 
@@ -10,11 +10,11 @@ plt.title('Accelerometer (Linear)')
 plt.plot(datanp[:, 1], label = 'x')
 plt.plot(datanp[:, 2], label = 'y' )
 plt.plot(datanp[:, 3], label = 'z')
-plt.yticks(np.arange(-1, 1, 0.1))
+plt.yticks(np.arange(-0.4, 0.4, 0.05))
 plt.legend()
 plt.show()
 
-datapd = pd.read_csv('/home/iq9/nagendra/delay/dataset/20-02-12 11:33:26/data_gyro.csv')
+datapd = pd.read_csv('/home/iq9/nagendra/delay/IMU_and_Image_data/20-02-17_17:50:23/data_gyro.csv')
 datanp = datapd.to_numpy()
 
 
@@ -23,11 +23,11 @@ plt.title('Gyroscope')
 plt.plot(datanp[:, 1], label = 'x')
 plt.plot(datanp[:, 2], label = 'y' )
 plt.plot(datanp[:, 3], label = 'z')
-plt.yticks(np.arange(-1, 1, 0.1))
+plt.yticks(np.arange(-0.2, 0.2, 0.05))
 plt.legend()
 plt.show()
 
-datapd = pd.read_csv('/home/iq9/nagendra/delay/dataset/20-02-12 11:33:26/data_acc.csv')
+datapd = pd.read_csv('/home/iq9/nagendra/delay/IMU_and_Image_data/20-02-17_17:50:23/data_acc.csv')
 datanp = datapd.to_numpy()
 
 plt.title('Accelerometer')
