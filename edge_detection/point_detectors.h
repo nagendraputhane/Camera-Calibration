@@ -1,0 +1,4 @@
+#ifndef POINT_DETECTORS_H
+#define POINT_DETECTORS_H
+
+#endif // POINT_DETECTORS_H
