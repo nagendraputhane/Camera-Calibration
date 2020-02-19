@@ -32,7 +32,7 @@ public:
                 {
                     int first_black_r = i;
                     int first_black_c = j;
-                    if (first_black_c > 305)
+                    if (first_black_c > 315)
                     {
                         continue;
                     }

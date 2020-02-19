@@ -21,7 +21,7 @@ int main()
     corner_csv.open ("/home/iq9/nagendra/delay/corners.csv");
     std::ofstream points_to_track;
     points_to_track.open ("/home/iq9/nagendra/delay/points_to_track.csv");//top left, bottom left, top right, bottom right
-    std::ifstream stream ("/home/iq9/nagendra/delay/IMU_and_Image_data/20-02-17_17:50:23/data_image.csv");
+    std::ifstream stream ("/home/iq9/nagendra/delay/IMU_and_Image_data/20-02-18 18:53:41/data_image.csv");
 
     Mat frame, src_gray;
 
@@ -36,7 +36,7 @@ int main()
             frame_name = field;
         }
 
-        string path = "/home/iq9/nagendra/delay/IMU_and_Image_data/20-02-17_17:50:23/";
+        string path = "/home/iq9/nagendra/delay/IMU_and_Image_data/20-02-18 18:53:41/";
 
         path = path + frame_name;
 
@@ -52,7 +52,7 @@ int main()
         //fd.hough(src_gray);
         //fd.rect(src_gray);
 
-        pd.corners(corners_global);
+        //pd.corners(corners_global);
         pd.edge_points(src_gray, &first_black_row_mid, &first_black_col_mid,
                                  &second_black_row_mid, &second_black_col_mid);
 
@@ -60,8 +60,8 @@ int main()
                       corners_global[1].x << "," << corners_global[1].y << "," <<
                       corners_global[2].x << "," << corners_global[2].y << "," <<
                       corners_global[3].x << "," << corners_global[3].y << "\n";
-        points_to_track << first_black_row_mid << "," << first_black_col_mid << "," <<
-                               second_black_row_mid << "," << second_black_col_mid << "\n";
+        points_to_track << first_black_col_mid << "," << first_black_row_mid << "," <<
+                               second_black_col_mid << "," << second_black_row_mid << "\n";
 
         first_black_row_mid = first_black_col_mid = second_black_row_mid = second_black_col_mid = 0;
 

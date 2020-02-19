@@ -1,6 +1,23 @@
 # I] Camera rolling shutter impact measurement
 # II] IMU to camera timestamp measurement
 
+## Plotting (plotting_programs)
+* plot_edge.py - Plot Middle-points of the edges of target.
+* plot_corners.py - Plot the corners of the edges of the target.
+* plot_imu.py - Plot Gyroscope, Accelerometer and Linear Accelerometer data of the image.
+
+## edge_detection (Feature Detectors)
+* Target - black rectangle on a white A4 sheet paper.
+### 1) Canny algorithm.
+### 2) Harris corner detector.
+### 3) HoughLines - Hough transform algorithm for line detection.
+### 4) Detect contours and draw bounding rectangle.
+### 5) goodFeaturesToTrack() - 4 corners.
+### 6) Detect Middle-points of Edges.
+
+## IMU_and_Image_data
+* Contains Image data and IMU data together.
+
 ## dataset
 * IMU data
 ```
@@ -17,16 +34,3 @@ Each Folder contains:
 3) Targets middle-points of edges.
 ```
 
-## Plotting (plotting_programs)
-* plot_edge.py - Plot Middle-points of the edges of target.
-* plot_corners.py - Plot the corners of the edges of the target.
-* plot_imu.py - Plot Gyroscope, Accelerometer and Linear Accelerometer data of the image.
-
-## edge_detection (Feature Detectors)
-* Target - black rectangle on a white A4 sheet paper.
-### 1) Canny algorithm.
-### 2) Harris corner detector.
-### 3) HoughLines - Hough transform algorithm for line detection.
-### 4) Detect contours and draw bounding rectangle.
-### 5) goodFeaturesToTrack() - 4 corners.
-### 6) Detect Middle-points of Edges.
