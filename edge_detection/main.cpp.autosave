@@ -19,47 +19,48 @@ int main()
 
     //std::ofstream corner_csv;
     //corner_csv.open ("/home/iq9/nagendra/delay/corners.csv");
-    std::ofstream points_to_track;
+    
+    std::ofstream points_to_track; //File that contains edge points
     points_to_track.open ("/home/iq9/nagendra/delay/points_to_track.csv");//top left, bottom left, top right, bottom right
-    std::ifstream stream ("/home/iq9/nagendra/delay/IMU_and_Image_data/Vertical/20-02-19 11:35:41/data_image.csv");
+    std::ifstream stream ("/home/iq9/nagendra/delay/IMU_and_Image_data/Vertical/20-02-19 11:35:41/data_image.csv"); //read file that contain frame names
 
     Mat frame, src_gray;
 
     string line, frame_name;
 
-    while(stream >> line)
+    while(stream >> line) //read line by line
     {
         std::istringstream s(line);
         std::string field;
-        while (getline(s, field,','))
+        while (getline(s, field,',')) //read field by field
         {
             frame_name = field;
         }
 
         string path = "/home/iq9/nagendra/delay/IMU_and_Image_data/Vertical/20-02-19 11:35:41/";
 
-        path = path + frame_name;
+        path = path + frame_name; //get the path of the frame
 
         frame = imread(path, CV_LOAD_IMAGE_COLOR);
 
-        cvtColor( frame, src_gray, COLOR_BGR2GRAY );
+        cvtColor( frame, src_gray, COLOR_BGR2GRAY ); //Covert to Gray scale
 
-        cv::threshold(src_gray, src_gray, 80, 255, ThresholdTypes::THRESH_BINARY);
+        cv::threshold(src_gray, src_gray, 80, 255, ThresholdTypes::THRESH_BINARY); //Apply thresholding on grayscale image
 
-        //cv::goodFeaturesToTrack(src_gray, corners_global, 4, 0.01, 2, noArray(), 5,true, 0.04);
-        //fd.harris(src_gray, corners_global);
-        //fd.hough(src_gray);
-        src_gray = fd.rect(src_gray);
+        //cv::goodFeaturesToTrack(src_gray, corners_global, 4, 0.01, 2, noArray(), 5,true, 0.04); //extract four good feature points
+        //fd.harris(src_gray, corners_global); //get harris corner points
+        //fd.hough(src_gray); //draw hough lines
+        src_gray = fd.rect(src_gray); //extract only the target from the frame
 
         //pd.corners(corners_global);
-        pd.edge_points(src_gray, &first_black_row_mid, &first_black_col_mid, &second_black_row_mid, &second_black_col_mid);
+        pd.edge_points(src_gray, &first_black_row_mid, &first_black_col_mid, &second_black_row_mid, &second_black_col_mid); //extract edge points
 
         /*corner_csv << corners_global[0].x << "," << corners_global[0].y << "," <<
                       corners_global[1].x << "," << corners_global[1].y << "," <<
                       corners_global[2].x << "," << corners_global[2].y << "," <<
                       corners_global[3].x << "," << corners_global[3].y << "\n";*/
         points_to_track << first_black_col_mid << "," << first_black_row_mid << "," <<
-                               second_black_col_mid << "," << second_black_row_mid << "\n";
+                               second_black_col_mid << "," << second_black_row_mid << "\n"; //save edge points
 
         first_black_row_mid = first_black_col_mid = second_black_row_mid = second_black_col_mid = 0;
 

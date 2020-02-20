@@ -20,7 +20,7 @@ plt.yticks(np.arange(0, 400, 50))
 plt.legend()
 
 plt.subplot(2, 2, 3)
-datapd = pd.read_csv('/home/iq9/nagendra/delay/IMU_and_Image_data/20-02-17_17:50:23/data_lin_acc.csv')
+datapd = pd.read_csv('/home/iq9/nagendra/delay/IMU_and_Image_data/Vertical/20-02-19 11:35:41/data_lin_acc.csv')
 lin_acc = datapd.to_numpy()
 
 plt.title('Accelerometer (Linear)')

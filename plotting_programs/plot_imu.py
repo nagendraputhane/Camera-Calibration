@@ -2,19 +2,32 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-datapd = pd.read_csv('/home/iq9/nagendra/delay/IMU_and_Image_data/20-02-17_17:50:23/data_lin_acc.csv')
+#####
+datapd = pd.read_csv('/home/iq9/nagendra/delay/IMU_and_Image_data/Vertical/20-02-19 11:46:13/data_acc.csv')
 datanp = datapd.to_numpy()
-ax = datanp[:, 1]
 
-plt.title('Accelerometer (Linear)')
+plt.title('Accelerometer')
 plt.plot(datanp[:, 1], label = 'x')
 plt.plot(datanp[:, 2], label = 'y' )
 plt.plot(datanp[:, 3], label = 'z')
-plt.yticks(np.arange(-0.4, 0.4, 0.05))
+plt.yticks(np.arange(-0.5, 11, 0.5))
 plt.legend()
 plt.show()
 
-datapd = pd.read_csv('/home/iq9/nagendra/delay/IMU_and_Image_data/20-02-17_17:50:23/data_gyro.csv')
+#####
+datapd = pd.read_csv('/home/iq9/nagendra/delay/IMU_and_Image_data/Vertical/20-02-19 11:46:13/data_gravity.csv')
+datanp = datapd.to_numpy()
+
+plt.title('Gravity')
+plt.plot(datanp[:, 1], label = 'x')
+plt.plot(datanp[:, 2], label = 'y' )
+plt.plot(datanp[:, 3], label = 'z')
+plt.yticks(np.arange(-0.5, 11, 0.5))
+plt.legend()
+plt.show()
+
+#####
+datapd = pd.read_csv('/home/iq9/nagendra/delay/IMU_and_Image_data/Vertical/20-02-19 11:46:13/data_gyro.csv')
 datanp = datapd.to_numpy()
 
 
@@ -27,16 +40,22 @@ plt.yticks(np.arange(-0.2, 0.2, 0.05))
 plt.legend()
 plt.show()
 
-datapd = pd.read_csv('/home/iq9/nagendra/delay/IMU_and_Image_data/20-02-17_17:50:23/data_acc.csv')
+#####
+datapd = pd.read_csv('/home/iq9/nagendra/delay/IMU_and_Image_data/Vertical/20-02-19 11:46:13/data_lin_acc.csv')
 datanp = datapd.to_numpy()
+ax = datanp[:, 1]
 
-plt.title('Accelerometer')
+plt.title('Accelerometer (Linear)')
 plt.plot(datanp[:, 1], label = 'x')
 plt.plot(datanp[:, 2], label = 'y' )
 plt.plot(datanp[:, 3], label = 'z')
-plt.yticks(np.arange(-0.5, 11, 0.5))
+plt.yticks(np.arange(-0.4, 0.4, 0.05))
 plt.legend()
 plt.show()
+
+
+
+
 
 '''
 def running_mean(x, N):

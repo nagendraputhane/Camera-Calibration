@@ -24,39 +24,36 @@ public:
                                    int *second_black_row_mid, int *second_black_col_mid)
     {
         int end_loop = 0;
-        for (int i = 0; i < 480 && end_loop != 1; i++)
+        for (int i = 0; i < 480 && end_loop != 1; i++) //rows
         {
-            for (int j = 277; j < 390 && end_loop != 1; j++)
+            for (int j = 0; j < 640 && end_loop != 1; j++) //columns
             {
-                if (static_cast<int>(cv::norm(src_gray.row(i).col(j))) == 0)
+                if (static_cast<int>(cv::norm(src_gray.row(i).col(j))) == 0) //if the pixel is black, its the first pixel of the target
                 {
-                    int first_black_r = i;
-                    int first_black_c = j;
-                    if (first_black_c > 315)
-                    {
-                        continue;
-                    }
-                    int row_to_track = first_black_r + 50;
+                    int first_black_r = i; //get the row number of first pixel
+                    int first_black_c = j; //get the column number of first pixel
+
+                    int row_to_track = first_black_r + 50; //go 50 pixels down from the first corner point, to find the opposite point
                     int column_to_track;
-                    for ( int coli = first_black_c; coli < 390; coli++)
+                    for ( int coli = first_black_c; coli < 640; coli++) //traverse along the row from the column of first black pixel to 640th pixel
                     {
-                        if (static_cast<int>(cv::norm(src_gray.row(row_to_track).col(coli))) == 255)
+                        if (static_cast<int>(cv::norm(src_gray.row(row_to_track).col(coli))) == 255) //find the first white pixel
                         {
-                            int last_black_c = coli - 1;
-                            column_to_track = (first_black_c + last_black_c)/2;
+                            int last_black_c = coli - 1; //subtract 1 to get the last black pixel of the target
+                            column_to_track = (first_black_c + last_black_c)/2; //mid point of the target
                             break;
                         }
                     }
-                    for ( int k = 0; k < 480; k++)
+                    for ( int k = 0; k < 480; k++) //traverse along the mid column
                     {
-                        if (static_cast<int>(cv::norm(src_gray.row(k).col(column_to_track))) == 0)
+                        if (static_cast<int>(cv::norm(src_gray.row(k).col(column_to_track))) == 0) //find the first black pixel along the mid column
                         {
-                            *first_black_row_mid = k;
-                            *second_black_row_mid = row_to_track;
-                            *first_black_col_mid = column_to_track;
-                            *second_black_col_mid = first_black_c;
-                            cout << "Point to track : " << *first_black_row_mid << ", " << *first_black_col_mid << endl;
-                            cout << "Point to track : " << *second_black_row_mid << ", " << *second_black_col_mid << endl;
+                            *first_black_row_mid = k;                //Y for 1st point
+                            *second_black_row_mid = row_to_track;    //Y for 2nd point
+                            *first_black_col_mid = column_to_track;  //X for 1st point
+                            *second_black_col_mid = first_black_c;   //X for 2nd point
+                            cout << "Point to track : " << *first_black_col_mid << ", " << *first_black_row_mid << endl;
+                            //cout << "Point to track : " << *second_black_col_mid << ", " << *second_black_row_mid << endl;
                             cout << "------------------------" << endl;
                             end_loop = 1;
                             //exit(0);
